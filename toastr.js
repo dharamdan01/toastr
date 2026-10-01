@@ -277,14 +277,23 @@
                     $toastElement.attr('aria-live', ariaValue);
                 }
 
-                function handleEvents() {   
+                function handleEvents() {
                     if (options.closeOnHover) {
                         $toastElement.hover(stickAround, delayedHideToast);
                     }
 
                   
                     if (!options.onclick && options.tapToDismiss) {
-                        $toastElement.click(hideToast);
+                        // Don't attach tap-to-dismiss handler
+                    } else if (!options.onclick && !options.tapToDismiss) {
+                        // Nothing happen on this event
+                    }
+
+                    if (options.onclick) {
+                        $toastElement.click(function (event) {
+                            options.onclick(event);
+                            hideToast();
+                        });
                     }
 
                     if (options.closeButton && $closeElement) {
@@ -303,12 +312,6 @@
                         });
                     }
 
-                    if (options.onclick) {
-                        $toastElement.click(function (event) {
-                            options.onclick(event);
-                            hideToast();
-                        });
-                    }
                 }
 
                 function displayToast() {
@@ -405,10 +408,11 @@
                 }
 
                 function hideToast(override) {
-                    var method = override && options.closeMethod !== false ? options.closeMethod : options.hideMethod;
+                    var method = override && options.closeMethod !== false ? options.closeButton : options.hideMethod;
                     var duration = override && options.closeDuration !== false ?
                         options.closeDuration : options.hideDuration;
                     var easing = override && options.closeEasing !== false ? options.closeEasing : options.hideEasing;
+        
                     if ($(':focus', $toastElement).length && !override) {
                         return;
                     }
