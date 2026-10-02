@@ -23,7 +23,7 @@
                 success: 'success',
                 warning: 'warning'
             };
-
+            
             var toastr = {
                 clear: clear,
                 remove: remove,
@@ -267,10 +267,9 @@
                 function setAria() {
                     var ariaValue = '';
                     $toastElement.removeClass(`polite assertive ${options.positionClass}`);
-
                     switch (map.iconClass) {
-                        case ('toast-success'):
-                        case ('toast-info'):
+                        case (`toast-${toastType.success}`):
+                        case (`toast-${toastType.info}`):
                             ariaValue =  'polite';
                             $toastElement.addClass('polite');
                             break;
