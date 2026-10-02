@@ -266,13 +266,20 @@
 
                 function setAria() {
                     var ariaValue = '';
+                    $toastElement.removeClass(`polite assertive ${options.positionClass}`);
+
                     switch (map.iconClass) {
-                        case 'toast-success':
-                        case 'toast-info':
+                        case ('toast-success'):
+                        case ('toast-info'):
                             ariaValue =  'polite';
+                            $toastElement.addClass('polite');
                             break;
                         default:
+                            $container.removeClass(options.positionClass) // this line remove class of container
                             ariaValue = 'assertive';
+                            $toastElement.addClass('assertive');
+                            $container.addClass('toast-top-full-width'); // this line add class into container
+                        
                     }
                     $toastElement.attr('aria-live', ariaValue);
                 }
